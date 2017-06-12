@@ -5,6 +5,10 @@ var quoteUniqueIds = [];
 //this value can be passed to stopAutoQuote() to cancel the timeout.
 var timeOutId;
 
+//Boolean to check if the auto random generating
+//timer has started
+var isAutoGenerating = false;
+
 /*
 Selects a random quote object from the quotes array and
 returns the randomly selected quote object
@@ -110,15 +114,21 @@ function formatQuote(quote) {
 Sets an interval which changes the random quote automatically
 */
 function startAutoQuote() {
-    //Call the printQuote after 30 seconds
-    timeOutId = setTimeout(printQuote, 30000);
+    if (!isAutoGenerating) {
+        //Call the printQuote after 30 seconds
+        timeOutId = setTimeout(printQuote, 30000);
+        isAutoGenerating = true;
+    }
 }
 
 /*
 Stops the automatic change of the random quotes
 */
 function stopAutoQuote() {
-    clearTimeout(timeOutId);
+    if (isAutoGenerating) {
+        clearTimeout(timeOutId);
+        isAutoGenerating = false;
+    }
 }
 
 //Function to print the resulting random quote to the web page
@@ -136,4 +146,9 @@ function printQuote() {
     var content = document.getElementById("quote-box");
     //Set the content 
     content.innerHTML = html;
+    //Reset the auto random quote timer
+    if (isAutoGenerating) {
+        stopAutoQuote();
+        startAutoQuote();
+    }
 }
