@@ -1,25 +1,25 @@
 //Variable that holds the unique ids for the quotes
-var quoteUniqueIds = [];
+const quoteUniqueIds = [];
 
 //A positive integer value which identifies the timer created by the call to setTimeout(); 
 //this value can be passed to stopAutoQuote() to cancel the timeout.
-var timeOutId;
+let timeOutId;
 
 //Boolean to check if the auto random generating
 //timer has started
-var isAutoGenerating = false;
+let isAutoGenerating = false;
 
 /*
 Selects a random quote object from the quotes array and
 returns the randomly selected quote object
 */
-function getRandomQuote() {
+const getRandomQuote = () => {
     //Refill the array with the unique quotes ids if needed
     if (quoteUniqueIds.length === 0) {
         console.log('starting to show quotes');
-        for (var i = 0; i < quotes.length; i += 1) {
+        for (let i = 0; i < quotes.length; i++) {
             //Loop through the properties in the object to find the id property
-            for (var prop in quotes[i]) {
+            for (let prop in quotes[i]) {
                 //Add only value from the id property
                 if (prop === 'id') {
                     console.log(quotes[i][prop]);
@@ -29,9 +29,9 @@ function getRandomQuote() {
         }
     }
     //The id of the quote that will be randomly selected
-    var randomQuoteId;
+    let randomQuoteId;
     //The index of the selected quote id in the quoteUniqueIds array
-    var indexOfQuoteId;
+    let indexOfQuoteId;
 
     if (quoteUniqueIds.length > 1) {
         //Loop until the generated random number matches any of the
@@ -45,10 +45,10 @@ function getRandomQuote() {
         randomQuoteId = quoteUniqueIds[0];
     }
     //Variable to hold the resulting random quote
-    var randomQuote = {};
+    let randomQuote = {};
     //Loop to find the quote which has a matching id equal to the
     //randomQuoteId generated
-    for (var i = 0; i < quotes.length; i += 1) {
+    for (let i = 0; i < quotes.length; i++) {
         if (quotes[i].id === randomQuoteId) {
             randomQuote = quotes[i];
             break;
@@ -67,15 +67,13 @@ function getRandomQuote() {
 /*
 Function to generate a random rgb number
 */
-function randomRGB() {
-    return Math.floor(Math.random() * 256);
-}
+const randomRGB = () => Math.floor(Math.random() * 256);
 /*
 Function that returns a random color that will set the 
 background color of the page each time a quote is set
 */
-function getRandomColor() {
-    var color = 'rgb(';
+const getRandomColor = () => {
+    let color = 'rgb(';
     color += randomRGB() + ',';
     color += randomRGB() + ',';
     color += randomRGB() + ')';
@@ -92,8 +90,8 @@ with the following format.
 </p>
 <footer class="quote-footer">[tag here]</footer>
 */
-function formatQuote(quote) {
-    var html = '<p class = "quote">' + quote['quote'] + '</p>';
+const formatQuote = quote => {
+    let html = '<p class = "quote">' + quote['quote'] + '</p>';
     html += '<p class = "source">' + quote['source'];
     //If the citation property is empty dont add it
     if (quote['citation'].length > 0) {
@@ -113,7 +111,7 @@ function formatQuote(quote) {
 /*
 Sets an interval which changes the random quote automatically
 */
-function startAutoQuote() {
+const startAutoQuote = () => {
     if (!isAutoGenerating) {
         //Call the printQuote after 30 seconds
         timeOutId = setTimeout(printQuote, 30000);
@@ -124,7 +122,7 @@ function startAutoQuote() {
 /*
 Stops the automatic change of the random quotes
 */
-function stopAutoQuote() {
+const stopAutoQuote = () => {
     if (isAutoGenerating) {
         clearTimeout(timeOutId);
         isAutoGenerating = false;
@@ -132,9 +130,9 @@ function stopAutoQuote() {
 }
 
 //Function to print the resulting random quote to the web page
-function printQuote() {
-    var randomQuote = '';
-    var html = '';
+const printQuote = () => {
+    let randomQuote = '';
+    let html = '';
     //Ensure that the html always has something to print on the page
     while (html.length === 0) {
         randomQuote = getRandomQuote();
@@ -143,7 +141,7 @@ function printQuote() {
     //Change the background color of the page with a random color
     document.body.style.backgroundColor = getRandomColor();
     //Select the tag where the quote will be printed
-    var content = document.getElementById("quote-box");
+    let content = document.getElementById("quote-box");
     //Set the content 
     content.innerHTML = html;
     //Reset the auto random quote timer
